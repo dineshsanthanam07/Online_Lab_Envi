@@ -1,0 +1,12 @@
+[versions]
+springBootVersion = "3.5.4"
+openApiPluginVersion = "7.14.0"
+springDocOpenApiVersions = "2.8.9"
+
+[libraries]
+springDocOpenApiWebfluxUi = { group = "org.springdoc", name = "springdoc-openapi-starter-webflux-ui", version.ref = "springDocOpenApiVersions" }
+springDocOpenApiWebfluxApi = { group = "org.springdoc", name = "springdoc-openapi-starter-webflux-api", version.ref = "springDocOpenApiVersions" }
+
+[plugins]
+spring-boot-gradle-plugin = { id = "org.springframework.boot", version.ref = "springBootVersion" }
+openapi-generator-plugin = { id = "org.openapi.generator", version.ref = "openApiPluginVersion" }

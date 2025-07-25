@@ -1,0 +1,44 @@
+openapi: "3.1.1"
+info:
+  title: Faculty Service API
+  summary: APIs to provide CRUD operations for managing Faculty data
+  version: 1.0
+servers:
+  - url: "{scheme}://{hostname}:{port}/api/proctor/service"
+    description: The base path for the API
+    variables:
+      scheme:
+        enum:
+          - "https"
+          - "http"
+        default: "http"
+      hostname:
+        enum:
+          - "localhost"
+        default: "localhost"
+      port:
+        enum:
+          - "8080"
+          - "443"
+        default: "8080"
+paths:
+  /faculty:
+    get:
+      description: API to fetch all faculty
+      responses:
+        "200":
+          description: The faculty list is returned successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/FacultyResponseDTO"
+components:
+  schemas:
+    FacultyResponseDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        department:
+          type: string
