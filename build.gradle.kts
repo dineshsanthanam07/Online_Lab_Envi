@@ -32,6 +32,7 @@ openApiGenerate {
     inputSpecRootDirectory.set("${projectDir.path}/src/main/resources/openapi")
     packageName.set("com.proctor.service")
     apiPackage.set("com.proctor.service.controller")
+    modelPackage.set("com.proctor.service.dto")
     configOptions.set(
         mutableMapOf<String, String>(
             "openApiNullable" to "false",
