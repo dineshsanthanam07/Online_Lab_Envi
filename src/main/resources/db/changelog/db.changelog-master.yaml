@@ -1,258 +1,258 @@
 databaseChangeLog:
--changeSet:
-  id: 1
-  author: Dinesh
-  changes:
+- changeSet:
+   id: 1
+   author: Dinesh
+   changes:
     - createTable:
-      tableName: User
-      columns:
+        tableName: User
+        columns:
         - column:
-          name: user_id
-          type: bigint
-          autoIncrement: true
-          constraints:
+            name: user_id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+              unique: true
+        - column:
+            name: username
+            type: varchar(30)
+            constraints:
+              nullable: false
+              unique: true
+        - column:
+            name: password
+            type: varchar(64)
+            constraints:
+              nullable: false
+        - column:
+            name: role
+            type: varchar(10)
+            constraints:
+              nullable: false
+        - column:
+            name: status
+            type: varchar(10)
+            constraints:
+              nullable: false
+    - createTable:
+        tableName: Faculty
+        columns:
+        - column:
+            name: faculty_id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+        - column:
+            name: department
+            type: varchar(40)
+            constraints:
+              nullable: false
+        - column:
+            name: designation
+            type: varchar(30)
+            constraints:
+              nullable: false
+        - column:
+            name: email
+            type: varchar(30)
+            constraints:
+              nullable: false
+              unique: true
+        - column:
+            name: name
+            type: varchar(40)
+            constraints:
+              nullable: false
+        - column:
+            name: user_id
+            type: int
+            constraints:
+              nullable: false
+              foreignKeyName: user_id
+              references: User(user_id)
+              deleteCascade: true
+    - createTable:
+        tableName: Students
+        columns:
+        - column:
+            name: roll_no
+            type: bigint
+            constraints:
+              primaryKey: true
+        - column:
+            name: name
+            type: varchar(40)
+            constraints:
+              nullable: false
+        - column:
+            name: branch
+            type: varchar(40)
+            constraints:
+              nullable: false
+        - column:
+            name: batch
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: department
+            type: varchar(40)
+            constraints:
+              nullable: false
+        - column:
+            name: user_id
+            type: bigint
+            constraints:
+              nullable: false
+              foreignKeyName: user_id
+              references: User(user_id)
+              deleteCascade: true
+    - createTable:
+        tableName: Courses
+        columns:
+        - column:
+            name: course_id
+            type: varchar(10)
+            constraints:
+              primaryKey: true
+        - column:
+            name: course_name
+            type: varchar(30)
+            constraints:
+              nullable: false
+        - column:
+            name: created_at
+            type: TIMESTAMP
+            constraints:
+              nullable: true
+        - column:
+            name: faculty_id
+            type: bigint
+            constraints:
+              nullable: false
+              foreignKeyName: faculty_id
+              references: Faculty(faculty_id)
+    - createTable:
+        tableName: Course_Enrollment
+        columns:
+        - column:
+            name: course_enroll_id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+              unique: true
+        - column:
+            name: status
+            type: varchar(15)
+            constraints:
+              nullable: false
+        - column:
+            name: course_id
+            type: varchar(10)
+            constraints:
+              nullable: false
+              foreignKeyName: course_id
+              references: Courses(course_id)
+        - column:
+            name: roll_no
+            type: bigint
+            constraints:
+              nullable: false
+              foreignKeyName: roll_no
+              references: Students(roll_no)
+    - createTable:
+        tableName: Test
+        columns:
+        - column:
+            name: test_id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+              unique: true
+        - column:
+            name: title
+            type: varchar(40)
+            constraints:
+              nullable: false
+        - column:
+            name: duration
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: course_id
+            type: varchar(10)
+            constraints:
+              nullable: false
+              foreignKeyName: course_id
+              references: Courses(course_id)
+    - createTable:
+        tableName: Question
+        columns:
+        - column:
+            name: question_id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+              unique: true
+        - column:
+            name: title
+            type: varchar(40)
+            constraints:
+              nullable: false
+        - column:
+            name: questions
+            type: varchar(100000)
+            constraints:
+              nullable: false
+        - column:
+            name: test_id
+            type: bigint
+            constraints:
+              foreignKeyName: test_id
+              references: Test(test_id)
+    - createTable:
+        tableName: Submissions
+        columns:
+        - column:
+           name: submission_id
+           type: bigint
+           autoIncrement: true
+           constraints:
             primaryKey: true
             nullable: false
             unique: true
         - column:
-          name: username
-          type: varchar(30)
-          constraints:
-            nullable: false
-            unique: true
+            name: language_id
+            type: int
+            constraints:
+              nullable: false
         - column:
-          name: password
-          type: varchar(64)
-          constraints:
-            nullable: false
+            name: student_roll_no
+            type: bigint
+            constraints:
+              nullable: false
+              foreignKeyName: roll_no
+              references: Students(roll_no)
         - column:
-          name: role
-          type: varchar(10)
-          constraints:
-            nullable: false
+            name: submitted_code
+            type: varchar(100000000)
+            constraints:
+              nullable: false
         - column:
-          name: status
-          type: varchar(10)
-          constraints:
-            nullable: false
-    - createTable:
-      tableName: Faculty
-      columns:
-        - column:
-          name: faculty_id
-          type: bigint
-          autoIncrement: true
-          constraints:
-            primaryKey: true
-        - column:
-          name: department
-          type: varchar(40)
-          constraints:
-            nullable: false
-        - column:
-          name: designation
-          type: varchar(30)
-          constraints:
-            nullable: false
-        - column:
-          name: email
-          type: varchar(30)
-          constraints:
-            nullable: false
-            unique: true
-        - column:
-          name: name
-          type: varchar(40)
-          constraints:
-            nullable: false
-        - column:
-          name: user_id
-          type: int
-          constraints:
-            nullable: false
-            foreignKeyName: user_id
-            references: User(user_id)
-            deleteCascade: true
-    - createTable:
-      tableName: Students
-      columns:
-        - column:
-          name: roll_no
-          type: bigint
-          constraints:
-            primaryKey: true
-        - column:
-          name: name
-          type: varchar(40)
-          constraints:
-            nullable: false
-        - column:
-          name: branch
-          type: varchar(40)
-          constraints:
-            nullable: false
-        - column:
-          name: batch
-          type: bigint
-          constraints:
-            nullable: false
-        - column:
-          name: department
-          type: varchar(40)
-          constraints:
-            nullable: false
-        - column:
-          name: user_id
-          type: bigint
-          constraints:
-            nullable: false
-            foreignKeyName: user_id
-            references: User(user_id)
-            deleteCascade: true
-    - createTable:
-      tableName: Courses
-      columns:
-        - column:
-          name: course_id
-          type: varchar(10)
-          constraints:
-            primaryKey: true
-        - column:
-          name: course_name
-          type: varchar(30)
-          constraints:
-            nullable: false
-        - column:
-          name: created_at
-          type: TIMESTAMP
-          constraints:
-            nullable: true
-        - column:
-          name: faculty_id
-          type: bigint
-          constraints:
-            nullable: false
-            foreignKeyName: faculty_id
-            references: Faculty(faculty_id)
-    - createTable:
-      tableName: Course_Enrollment
-      columns:
-        - column:
-          name: course_enroll_id
-          type: bigint
-          autoIncrement: true
-          constraints:
-            primaryKey: true
-            nullable: false
-            unique: true
-        - column:
-          name: status
-          type: varchar(15)
-          constraints:
-            nullable: false
-        - column:
-          name: course_id
-          type: varchar(10)
-          constraints:
-            nullable: false
-            foreginKeyName: course_id
-            references: Courses(course_id)
-        - column:
-          name: roll_no
-          type: bigint
-          constraints:
-            nullable: false
-            foreginKeyName: roll_no
-            references: Students(roll_no)
-    - createTable:
-      tableName: Test
-      columns:
-        - column:
-          name: test_id
-          type: bigint
-          autoIncrement: true
-          constraints:
-            primaryKey: true
-            nullable: false
-            unique: true
-        - column:
-          name: title
-          type: varchar(40)
-          constraints:
-            nullable: false
-        - column:
-          name: duration
-          type: bigint
-          constraints:
-            nullable: false
-        - column:
-          name: course_id
-          type: varchar(10)
-          constraints:
-          nullable: false
-          foreignKeyName: course_id
-          references: Courses(course_id)
-    - createTable:
-      tableName: Question
-      columns:
-        - column:
-          name: question_id
-          type: bigint
-          autoIncrement: true
-          constraints:
-            primaryKey: true
-            nullable: false
-            unique: true
-        - column:
-          name: title
-          type: varchar(40)
-          constraints:
-            nullable: false
-        - column:
-          name: questions
-          type: varchar(100000)
-          constraints:
-            nullable: false
-        - column:
-          name: test_id
-          type: bigint
-          constraints:
-            foreignKeyName: test_id
-            references: Test(test_id)
-    - createTable:
-      tableName: Submissions
-      columns:
-        - column:
-          name: submission_id
-          type: bigint
-          autoIncrement: true
-          constraints:
-            primaryKey: true
-            nullable: false
-            unique: true
-        - column:
-          name: language_id
-          type: int
-          constraints:
-            nullable: false
-        - column:
-          name: student_roll_no
-          type: bigint
-          constraints:
-            nullable: false
-            foreignKeyName: roll_no
-            references: Students(roll_no)
-        - column:
-          name: submitted_code
-          type: varchar(100000000)
-          constraints:
-            nullable:false
-        - column:
-          name: test_id
-          type: bigint
-          constraints:
-            foreignKeyName: test_id
-            references: Test(test_id)
+            name: test_id
+            type: bigint
+            constraints:
+              foreignKeyName: test_id
+              references: Test(test_id)
 
 
 
