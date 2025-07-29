@@ -29,7 +29,7 @@ dependencies {
 openApiGenerate {
     generatorName.set("spring")
     outputDir.set(projectDir.path)
-    inputSpecRootDirectory.set("${projectDir.path}/src/main/resources/openapi")
+    inputSpec.set("${projectDir.path}/src/main/resources/openapi/openapi-spec.yaml")
     packageName.set("com.proctor.service")
     apiPackage.set("com.proctor.service.controller")
     modelPackage.set("com.proctor.service.dto")
@@ -48,6 +48,16 @@ openApiGenerate {
     )
     apiFilesConstrainedTo.set(mutableListOf(""))
     modelFilesConstrainedTo.set(mutableListOf(""))
+    typeMappings.set(
+        mutableMapOf<String, String>(
+            "problemDetail" to "ProblemDetail"
+        )
+    )
+    importMappings.set(
+        mutableMapOf<String, String>(
+            "ProblemDetail" to "org.springframework.http.ProblemDetail"
+        )
+    )
 }
 
 tasks.compileJava {

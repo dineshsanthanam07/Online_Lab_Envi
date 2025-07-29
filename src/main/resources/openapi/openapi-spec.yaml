@@ -1,0 +1,174 @@
+openapi: 3.1.1
+info:
+  title: Online Coding Test Service
+  summary: APIs to provide API access to online coding test service
+  version: 1.0.0
+servers:
+  - url: "{scheme}://{hostname}:{port}/api/coding/test/service"
+    description: The base path for the API
+    variables:
+      scheme:
+        enum:
+          - "https"
+          - "http"
+        default: "http"
+      hostname:
+        enum:
+          - "localhost"
+        default: "localhost"
+      port:
+        enum:
+          - "8080"
+          - "443"
+        default: "8080"
+paths:
+  /faculty:
+    description: API to provide CRUD operations for managing faculty data
+    get:
+      operationId: get-faculty-list
+      description: API to fetch all faculty
+      parameters:
+        - name: page_number
+          in: query
+          description: The page number to return if fetching all records
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 1
+        - name: page_size
+          in: query
+          description: The number of records in a single page
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 10
+        - $ref: '#/components/parameters/faculty_id'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "200":
+          description: The faculty list is returned successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FacultyResponseDTO'
+    post:
+      operationId: save-faculty-record
+      description: API to save new faculty
+      requestBody:
+        description: Request model to save faculty
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FacultyRequestDTO'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "201":
+          description: New faculty record is saved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FacultyResponseDTO'
+    patch:
+      operationId: update-faculty-record
+      description: API to update Faculty if present
+      requestBody:
+        description: Request model to save faculty
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FacultyRequestDTO'
+      parameters:
+        - $ref: '#/components/parameters/faculty_id'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "202":
+          description: Faculty record details are updated
+    delete:
+      operationId: delete-faculty-record
+      parameters:
+        - $ref: '#/components/parameters/faculty_id'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "204":
+          description: Faculty record details are deleted
+components:
+  responses:
+    defaultResponse:
+      description: Default response for unhandled errors
+      content:
+        application/json:
+          schema:
+            type: problemDetail
+            externalDocs:
+              description: Spring ProblemDetail object
+              url: https://docs.spring.io/spring-framework/reference/web/webflux/ann-rest-exceptions.html
+  parameters:
+    faculty_id:
+      name: faculty_id
+      in: header
+      description: Unique id to identify Faculty
+      required: true
+      schema:
+        type: integer
+        format: int64
+  schemas:
+    FacultyResponseDTO:
+      title: FacultyResponseDTO
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique ID for the faculty record
+        name:
+          type: string
+          description: Name of the Faculty
+        department:
+          type: string
+          description: Department the faculty belongs to
+        username:
+          type: string
+          description: Faculty username
+        designation:
+          type: string
+          description: Faculty Designation
+        email:
+          type: string
+          description: Faculty email address
+    FacultyRequestDTO:
+      title: FacultyRequestDTO
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique ID for the faculty record
+        name:
+          type: string
+          description: Name of the Faculty
+        department:
+          type: string
+          description: Department the faculty belongs to
+        username:
+          type: string
+          description: Faculty username
+        password:
+          type: string
+          format: password
+          description: Faculty password
+        designation:
+          type: string
+          description: Faculty Designation
+        email:
+          type: string
+          description: Faculty email address
