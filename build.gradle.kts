@@ -13,6 +13,14 @@ repositories {
     mavenCentral()
 }
 
+sourceSets {
+    main {
+        java {
+            srcDir("${layout.buildDirectory.asFile.get().path}/generated/src/main/java")
+        }
+    }
+}
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
@@ -28,8 +36,8 @@ dependencies {
 
 openApiGenerate {
     generatorName.set("spring")
-    outputDir.set(projectDir.path)
-    inputSpec.set("${projectDir.path}/src/main/resources/openapi/openapi-spec.yaml")
+    outputDir.set("${layout.buildDirectory.asFile.get().path}/generated")
+    inputSpec.set("${projectDir.path}/src/main/resources/openapi/swagger-spec.yaml")
     packageName.set("com.proctor.service")
     apiPackage.set("com.proctor.service.controller")
     modelPackage.set("com.proctor.service.dto")
