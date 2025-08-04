@@ -1,3 +1,4 @@
+openapi: 3.1.1
 paths:
   /faculty:
     description: API to provide CRUD operations for managing faculty data
@@ -5,23 +6,9 @@ paths:
       operationId: get-faculty-list
       description: API to fetch all faculty
       parameters:
-        - name: page_number
-          in: query
-          description: The page number to return if fetching all records
-          required: false
-          schema:
-            type: integer
-            format: int32
-            default: 1
-        - name: page_size
-          in: query
-          description: The number of records in a single page
-          required: false
-          schema:
-            type: integer
-            format: int32
-            default: 10
-        - $ref: '#/components/parameters/faculty_id'
+        - $ref: '../openapi-spec.yaml#/components/parameters/page_number'
+        - $ref: '../openapi-spec.yaml#/components/parameters/page_size'
+        - $ref: '#components/parameters/faculty_id'
       responses:
         default:
           $ref: '../openapi-spec.yaml#/components/responses/defaultResponse'
@@ -56,7 +43,7 @@ paths:
       operationId: update-faculty-record
       description: API to update Faculty if present
       requestBody:
-        description: Request model to save faculty
+        description: Request model to update faculty
         required: true
         content:
           application/json:

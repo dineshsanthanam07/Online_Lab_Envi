@@ -34,4 +34,22 @@ components:
             externalDocs:
               description: Spring ProblemDetail object
               url: https://docs.spring.io/spring-framework/reference/web/webflux/ann-rest-exceptions.html
-  $ref: "./faculty/faculty-spec.yaml#/components"
+  parameters:
+    page_number:
+      name: page_number
+      in: query
+      description: The page number to return if fetching all records
+      required: false
+      schema:
+        type: integer
+        format: int32
+        default: 1
+    page_size:
+      name: page_size
+      in: query
+      description: The number of records in a single page
+      required: false
+      schema:
+        type: integer
+        format: int32
+        default: 10

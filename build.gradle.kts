@@ -32,12 +32,13 @@ dependencies {
     implementation(libs.springDocOpenApiWebfluxUi)
     implementation(libs.springDocOpenApiWebfluxApi)
     implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.boot:spring-boot-starter-hateoas")
 }
 
 openApiGenerate {
     generatorName.set("spring")
     outputDir.set("${layout.buildDirectory.asFile.get().path}/generated")
-    inputSpec.set("${projectDir.path}/src/main/resources/openapi/swagger-spec.yaml")
+    inputSpecRootDirectory.set("${projectDir.path}/src/main/resources/openapi")
     packageName.set("com.proctor.service")
     apiPackage.set("com.proctor.service.controller")
     modelPackage.set("com.proctor.service.dto")
@@ -51,19 +52,22 @@ openApiGenerate {
             "skipDefaultInterface" to "true",
             "documentationProvider" to "springdoc",
             "reactive" to "true",
-            "useBeanValidation" to "true"
+            "useBeanValidation" to "true",
+            "hateoas" to "true"
         )
     )
     apiFilesConstrainedTo.set(mutableListOf(""))
     modelFilesConstrainedTo.set(mutableListOf(""))
     typeMappings.set(
         mutableMapOf<String, String>(
-            "problemDetail" to "ProblemDetail"
+            "problemDetail" to "ProblemDetail",
+            "offsetDateTime" to "OffsetDateTime",
         )
     )
     importMappings.set(
         mutableMapOf<String, String>(
-            "ProblemDetail" to "org.springframework.http.ProblemDetail"
+            "ProblemDetail" to "org.springframework.http.ProblemDetail",
+            "OffsetDateTime" to "java.time.OffsetDateTime",
         )
     )
 }
