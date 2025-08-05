@@ -1,3 +1,5 @@
+import java.nio.file.Paths
+
 plugins {
     application
     alias(libs.plugins.spring.boot.gradle.plugin)
@@ -40,8 +42,8 @@ dependencies {
 
 openApiGenerate {
     generatorName.set("spring")
-    outputDir.set("${layout.buildDirectory.asFile.get().path}/generated")
-    inputSpecRootDirectory.set("${projectDir.path}/src/main/resources/openapi")
+    outputDir.set(Paths.get(layout.buildDirectory.asFile.get().path, "generated").toString())
+    inputSpecRootDirectory.set(Paths.get(projectDir.path, "src", "main", "resources", "openapi").toString())
     packageName.set("com.proctor.service")
     apiPackage.set("com.proctor.service.controller")
     modelPackage.set("com.proctor.service.dto")
