@@ -24,7 +24,7 @@ sourceSets {
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
-        nativeImageCapable = true
+        //nativeImageCapable = true
     }
 }
 
@@ -33,6 +33,9 @@ dependencies {
     implementation(libs.springDocOpenApiWebfluxApi)
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-hateoas")
+    implementation("org.springframework.data:spring-data-r2dbc:3.5.2")
+    implementation ("io.asyncer:r2dbc-mysql:1.4.0")
+    implementation("org.projectlombok:lombok:1.18.38")
 }
 
 openApiGenerate {
