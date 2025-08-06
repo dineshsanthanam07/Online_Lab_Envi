@@ -1,0 +1,132 @@
+openapi: 3.1.1
+paths:
+  /student:
+    description: API to provide CRUD operations for managing Student data
+    get:
+      operationId: get-student-list
+      description: API to fetch student list or one student by id
+      parameters:
+        - $ref: '../openapi-spec.yaml#/components/parameters/page_number'
+        - $ref: '../openapi-spec.yaml#/components/parameters/page_size'
+        - $ref: '#components/parameters/student_id'
+      responses:
+        default:
+          $ref: '../openapi-spec.yaml#/components/responses/defaultResponse'
+        "200":
+          description: The student list is returned successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StudentResponseDTO'
+    post:
+      operationId: save-student-record
+      description: API to save new student
+      requestBody:
+        description: Request model to save student
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentRequestDTO'
+      responses:
+        default:
+          $ref: '../openapi-spec.yaml#/components/responses/defaultResponse'
+        "201":
+          description: New student record is saved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentResponseDTO'
+    patch:
+      operationId: update-student-record
+      description: API to update student if present
+      requestBody:
+        description: Request model to update student
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentRequestDTO'
+      parameters:
+        - $ref: '#/components/parameters/student_id'
+      responses:
+        default:
+          $ref: '../openapi-spec.yaml#/components/responses/defaultResponse'
+        "202":
+          description: Student record details are updated
+    delete:
+      operationId: delete-student-record
+      parameters:
+        - $ref: '#/components/parameters/student_id'
+      responses:
+        default:
+          $ref: '../openapi-spec.yaml#/components/responses/defaultResponse'
+        "204":
+          description: Student record details are deleted
+components:
+  parameters:
+    student_id:
+      name: student_id
+      in: header
+      description: Unique id to identify course
+      required: true
+      schema:
+        type: integer
+        format: int64
+  schemas:
+    StudentResponseDTO:
+      title: StudentResponseDTO
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique ID for the course record
+        name:
+          type: string
+          description: Name of the Course
+        department:
+          type: string
+          description: Name of department student belongs to
+        branch:
+          type: string
+          description: Branch the student belongs to
+        batch:
+          type: integer
+          format: int32
+          description: Batch year the student belongs to
+        roll_no:
+          type: string
+          description: Roll number to identify the student
+        username:
+          type: string
+          description: Student username
+    StudentRequestDTO:
+      title: StudentRequestDTO
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the Course
+        department:
+          type: string
+          description: Name of department student belongs to
+        branch:
+          type: string
+          description: Branch the student belongs to
+        batch:
+          type: integer
+          format: int32
+          description: Batch year the student belongs to
+        roll_no:
+          type: string
+          description: Roll number to identify the student
+        username:
+          type: string
+          description: Student username
+        password:
+          type: string
+          format: password
+          description: Faculty password

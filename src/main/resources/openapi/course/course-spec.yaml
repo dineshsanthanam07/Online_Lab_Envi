@@ -8,7 +8,7 @@ paths:
       parameters:
         - $ref: '../openapi-spec.yaml#/components/parameters/page_number'
         - $ref: '../openapi-spec.yaml#/components/parameters/page_size'
-        - $ref: '#/components/parameters/course_id'
+        - $ref: '#components/parameters/course_id'
       responses:
         default:
           $ref: '../openapi-spec.yaml#/components/responses/defaultResponse'
