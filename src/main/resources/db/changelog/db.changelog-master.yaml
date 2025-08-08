@@ -248,11 +248,17 @@ databaseChangeLog:
             constraints:
               nullable: false
         - column:
+            name: submission_time
+            type: TIMESTAMP
+            constraints:
+              nullable: false
+        - column:
             name: test_id
             type: bigint
             constraints:
               foreignKeyName: test_id
               references: Test(test_id)
+
 
 
 
