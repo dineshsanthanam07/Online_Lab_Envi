@@ -22,7 +22,266 @@ servers:
           - "443"
         default: "8080"
 paths:
-  $ref: "./faculty/faculty-spec.yaml#/paths"
+  /faculty:
+    description: API to provide CRUD operations for managing faculty data
+    get:
+      operationId: get-faculty-list
+      description: API to fetch all faculty
+      parameters:
+        - $ref: '#/components/parameters/page_number'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/faculty_id'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "200":
+          description: The faculty list is returned successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FacultyResponseDTO'
+    post:
+      operationId: save-faculty-record
+      description: API to save new faculty
+      requestBody:
+        description: Request model to save faculty
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FacultyRequestDTO'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "201":
+          description: New faculty record is saved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FacultyResponseDTO'
+    patch:
+      operationId: update-faculty-record
+      description: API to update Faculty if present
+      requestBody:
+        description: Request model to update faculty
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FacultyRequestDTO'
+      parameters:
+        - $ref: '#/components/parameters/faculty_id'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "202":
+          description: Faculty record details are updated
+    delete:
+      operationId: delete-faculty-record
+      parameters:
+        - $ref: '#/components/parameters/faculty_id'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "204":
+          description: Faculty record details are deleted  
+  /course:
+    description: API to provide CRUD operations for managing course data
+    get:
+      operationId: get-course-list
+      description: API to fetch course list or one course by id
+      parameters:
+        - $ref: '#/components/parameters/page_number'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/course_id'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "200":
+          description: The course list is returned successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CourseResponseDTO'
+    post:
+      operationId: save-course-record
+      description: API to save new course
+      requestBody:
+        description: Request model to save course
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseRequestDTO'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "201":
+          description: New course record is saved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseResponseDTO'
+    patch:
+      operationId: update-course-record
+      description: API to update Course if present
+      requestBody:
+        description: Request model to update course
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseRequestDTO'
+      parameters:
+        - $ref: '#/components/parameters/course_id'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "202":
+          description: Course record details are updated
+    delete:
+      operationId: delete-course-record
+      parameters:
+        - $ref: '#/components/parameters/course_id'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "204":
+          description: Course record details are deleted
+  /student:
+    description: API to provide CRUD operations for managing Student data
+    get:
+      operationId: get-student-list
+      description: API to fetch student list or one student by id
+      parameters:
+        - $ref: '#/components/parameters/page_number'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/student_id'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "200":
+          description: The student list is returned successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StudentResponseDTO'
+    post:
+      operationId: save-student-record
+      description: API to save new student
+      requestBody:
+        description: Request model to save student
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentRequestDTO'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "201":
+          description: New student record is saved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentResponseDTO'
+    patch:
+      operationId: update-student-record
+      description: API to update student if present
+      requestBody:
+        description: Request model to update student
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentRequestDTO'
+      parameters:
+        - $ref: '#/components/parameters/student_id'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "202":
+          description: Student record details are updated
+    delete:
+      operationId: delete-student-record
+      parameters:
+        - $ref: '#/components/parameters/student_id'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "204":
+          description: Student record details are deleted
+  /enrollment:
+    description: API to provide CRUD operations for managing Enrollment data
+    get:
+      operationId: get-enrollment-list
+      description: API to fetch Enrollment list or one enrollment by id
+      parameters:
+        - $ref: '#/components/parameters/page_number'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/enrollment_id'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "200":
+          description: The enrollment list is returned successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EnrollmentResponseDTO'
+    post:
+      operationId: save-enrollment-record
+      description: API to save new enrollment for enrollment
+      requestBody:
+        description: Request model to save enrollment
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnrollmentRequestDTO'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "201":
+          description: New enrollment record is saved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnrollmentResponseDTO'
+    patch:
+      operationId: update-enrollment-record
+      description: API to update enrollment if present
+      requestBody:
+        description: Request model to update enrollment
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnrollmentRequestDTO'
+      parameters:
+        - $ref: '#/components/parameters/enrollment_id'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "202":
+          description: Enrollment record details are updated
+    delete:
+      operationId: delete-enrollment-record
+      parameters:
+        - $ref: '#/components/parameters/enrollment_id'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "204":
+          description: Enrollment record details are deleted
 components:
   responses:
     defaultResponse:
@@ -53,3 +312,200 @@ components:
         type: integer
         format: int32
         default: 10
+    faculty_id:
+      name: faculty_id
+      in: header
+      description: Unique id to identify Faculty
+      required: true
+      schema:
+        type: integer
+        format: int64
+    course_id:
+      name: course_id
+      in: header
+      description: Unique id to identify course
+      required: true
+      schema:
+        type: integer
+        format: int64
+    student_id:
+      name: student_id
+      in: header
+      description: Unique id to identify course
+      required: true
+      schema:
+        type: integer
+        format: int64
+    enrollment_id:
+      name: enrollment_id
+      in: header
+      description: Unique id to identify course
+      required: true
+      schema:
+        type: integer
+        format: int64
+  schemas:
+    FacultyResponseDTO:
+      title: FacultyResponseDTO
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique ID for the faculty record
+        name:
+          type: string
+          description: Name of the Faculty
+        department:
+          type: string
+          description: Department the faculty belongs to
+        username:
+          type: string
+          description: Faculty username
+        designation:
+          type: string
+          description: Faculty Designation
+        email:
+          type: string
+          description: Faculty email address
+    FacultyRequestDTO:
+      title: FacultyRequestDTO
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique ID for the faculty record
+        name:
+          type: string
+          description: Name of the Faculty
+        department:
+          type: string
+          description: Department the faculty belongs to
+        username:
+          type: string
+          description: Faculty username
+        password:
+          type: string
+          format: password
+          description: Faculty password
+        designation:
+          type: string
+          description: Faculty Designation
+        email:
+          type: string
+          description: Faculty email address    
+    CourseResponseDTO:
+      title: CourseResponseDTO
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique ID for the course record
+        name:
+          type: string
+          description: Name of the Course
+        createdAt:
+          type: offsetDateTime
+          description: The date the course was created at
+        faculty:
+          $ref: '#/components/schemas/FacultyResponseDTO'
+    CourseRequestDTO:
+      title: CourseRequestDTO
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the Course
+        createdAt:
+          type: offsetDateTime
+          description: The date the course was created at
+        facultyId:
+          type: integer
+          format: int64
+          description: Unique ID for the faculty owning the course
+    StudentResponseDTO:
+      title: StudentResponseDTO
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique ID for the course record
+        name:
+          type: string
+          description: Name of the Course
+        department:
+          type: string
+          description: Name of department student belongs to
+        branch:
+          type: string
+          description: Branch the student belongs to
+        batch:
+          type: integer
+          format: int32
+          description: Batch year the student belongs to
+        roll_no:
+          type: string
+          description: Roll number to identify the student
+        username:
+          type: string
+          description: Student username
+    StudentRequestDTO:
+      title: StudentRequestDTO
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the Course
+        department:
+          type: string
+          description: Name of department student belongs to
+        branch:
+          type: string
+          description: Branch the student belongs to
+        batch:
+          type: integer
+          format: int32
+          description: Batch year the student belongs to
+        roll_no:
+          type: string
+          description: Roll number to identify the student
+        username:
+          type: string
+          description: Student username
+        password:
+          type: string
+          format: password
+          description: Faculty password
+    EnrollmentResponseDTO:
+      title: EnrollmentResponseDTO
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique ID for the course record
+        student:
+          $ref: '#/components/schemas/StudentResponseDTO'
+        status:
+          type: string
+          description: The status of the enrollment
+        course:
+          $ref: '#/components/schemas/CourseResponseDTO'
+    EnrollmentRequestDTO:
+      title: EnrollmentRequestDTO
+      type: object
+      properties:
+        student:
+          type: integer
+          format: int64
+          description: Unique ID to identify the student
+        status:
+          type: string
+          description: The status of the enrollment
+        course:
+          type: integer
+          format: int64
+          description: Unique ID to identify the course         

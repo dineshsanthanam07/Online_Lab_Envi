@@ -41,8 +41,8 @@ dependencies {
 
 openApiGenerate {
     generatorName.set("spring")
-    outputDir.set(Paths.get(layout.buildDirectory.asFile.get().path, "generated").toString())
-    inputSpecRootDirectory.set(Paths.get(projectDir.path, "src", "main", "resources", "openapi").toString())
+    outputDir.set("${layout.buildDirectory.asFile.get().path}/generated")
+    inputSpec.set("${projectDir.toURI()}/src/main/resources/openapi/openapi-spec.yaml")
     packageName.set("com.proctor.service")
     apiPackage.set("com.proctor.service.controller")
     modelPackage.set("com.proctor.service.dto")
