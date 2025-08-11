@@ -152,6 +152,76 @@ paths:
           $ref: '#/components/responses/defaultResponse'
         "204":
           description: Course record details are deleted
+  /course/{course_id}/course_test:
+    description: API to provide CRUD operations for managing test data
+    get:
+      operationId: get-course_test-list
+      description: API to fetch test list or one test by id associated with the course
+      parameters:
+        - $ref: '#/components/parameters/page_number'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/test_id'
+        - $ref: '#/components/parameters/course_id_in_path'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "200":
+          description: The test list associated with course is returned successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CourseTestResponseDTO'
+    post:
+      operationId: save-course_test-record
+      description: API to save new Test associated to a course
+      parameters:
+        - $ref: '#/components/parameters/course_id_in_path'
+      requestBody:
+        description: Request model to save a test associated to a course
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseTestRequestDTO'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "201":
+          description: New test record is saved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseTestResponseDTO'
+    patch:
+      operationId: update-course_test-record
+      description: API to update test associated with course if present
+      requestBody:
+        description: Request model to update test associated with course
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseTestRequestDTO'
+      parameters:
+        - $ref: '#/components/parameters/course_id_in_path'
+        - $ref: '#/components/parameters/test_id'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "202":
+          description: Test associated with course record details are updated
+    delete:
+      operationId: delete-course_test-record
+      parameters:
+        - $ref: '#/components/parameters/course_id_in_path'
+        - $ref: '#/components/parameters/test_id'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "204":
+          description: Test record details are deleted
   /student:
     description: API to provide CRUD operations for managing Student data
     get:
@@ -331,7 +401,7 @@ components:
     student_id:
       name: student_id
       in: header
-      description: Unique id to identify course
+      description: Unique id to identify student
       required: true
       schema:
         type: integer
@@ -339,11 +409,26 @@ components:
     enrollment_id:
       name: enrollment_id
       in: header
-      description: Unique id to identify course
+      description: Unique id to identify enrollment
       required: true
       schema:
         type: integer
         format: int64
+    test_id:
+      name: test_id
+      in: header
+      description: Unique id to identify test
+      required: true
+      schema:
+        type: integer
+        format: int64
+    course_id_in_path:
+      name: course_id
+      in: path
+      description: Course ID associated with this test
+      required: true
+      schema:
+        type: string
   schemas:
     FacultyResponseDTO:
       title: FacultyResponseDTO
@@ -508,4 +593,83 @@ components:
         course:
           type: integer
           format: int64
-          description: Unique ID to identify the course         
+          description: Unique ID to identify the course
+    CourseTestQuestionResponseDTO:
+      title: CourseTestQuestionResponseDTO
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique ID to identify the question added to a test associated with the course
+        question_text:
+          type: string
+          description: Problem statement
+        language:
+          type: string
+          description: Preferred language to solve the problem
+        test_cases:
+          type: string
+          description: Test cases prepared for the problem
+        custom_input:
+          type: string
+          description: Custom input to test the problem
+    CourseTestQuestionRequestDTO:
+      title: CourseTestQuestionRequestDTO
+      type: object
+      properties:
+        question_text:
+          type: string
+          description: Problem statement
+        language:
+          type: string
+          description: Preferred language to solve the problem
+        test_cases:
+          type: string
+          description: Test cases prepared for the problem
+        custom_input:
+          type: string
+          description: Custom input to test the problem
+    CourseTestResponseDTO:
+      title: CourseTestResponseDTO
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique ID to identify the test associated with the course
+        course:
+          $ref: '#/components/schemas/CourseResponseDTO'
+        title:
+          type: string
+          description: Title provided for the test
+        created_by:
+          $ref: '#/components/schemas/FacultyResponseDTO'
+        start_time:
+          type: offsetDateTime
+          description: Time the test had begun
+        duration:
+          type: integer
+          format: int32
+          description: The duration of the test in minutes
+        questions:
+          type: array
+          description: Questions added in the test
+          items:
+            $ref: '#/components/schemas/CourseTestQuestionResponseDTO'
+    CourseTestRequestDTO:
+      title: CourseTestRequestDTO
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title provided for the test
+        duration:
+          type: integer
+          format: int32
+          description: The duration of the test in minutes
+        questions:
+          type: array
+          description: Questions added in the test
+          items:
+            $ref: '#/components/schemas/CourseTestQuestionRequestDTO'
