@@ -222,6 +222,50 @@ paths:
           $ref: '#/components/responses/defaultResponse'
         "204":
           description: Test record details are deleted
+  /course/{course_id}/course_test/{test_id}/submission:
+    description: API to provide CRUD operations for managing Test submissions data
+    get:
+      operationId: get-test_submission-list
+      description: API to fetch submission list or one submission by id associated with the test
+      parameters:
+        - $ref: '#/components/parameters/page_number'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/test_id_in_path'
+        - $ref: '#/components/parameters/course_id_in_path'
+        - $ref: '#/components/parameters/submission_id'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "200":
+          description: The submission list associated with test is returned successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TestSubmissionResponseDTO'
+    post:
+      operationId: save-test_submission-record
+      description: API to save new Submission associated to a test
+      parameters:
+        - $ref: '#/components/parameters/course_id_in_path'
+        - $ref: '#/components/parameters/test_id_in_path'
+      requestBody:
+        description: Request model to save a submission associated to a test
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestSubmissionRequestDTO'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "201":
+          description: New submission record is saved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestSubmissionResponseDTO'
   /student:
     description: API to provide CRUD operations for managing Student data
     get:
@@ -386,7 +430,7 @@ components:
       name: faculty_id
       in: header
       description: Unique id to identify Faculty
-      required: true
+      required: false
       schema:
         type: integer
         format: int64
@@ -394,7 +438,7 @@ components:
       name: course_id
       in: header
       description: Unique id to identify course
-      required: true
+      required: false
       schema:
         type: integer
         format: int64
@@ -402,7 +446,7 @@ components:
       name: student_id
       in: header
       description: Unique id to identify student
-      required: true
+      required: false
       schema:
         type: integer
         format: int64
@@ -410,7 +454,7 @@ components:
       name: enrollment_id
       in: header
       description: Unique id to identify enrollment
-      required: true
+      required: false
       schema:
         type: integer
         format: int64
@@ -418,7 +462,7 @@ components:
       name: test_id
       in: header
       description: Unique id to identify test
-      required: true
+      required: false
       schema:
         type: integer
         format: int64
@@ -427,6 +471,20 @@ components:
       in: path
       description: Course ID associated with this test
       required: true
+      schema:
+        type: string
+    test_id_in_path:
+      name: test_id
+      in: path
+      description: Parent Test ID for the submission
+      required: true
+      schema:
+        type: string
+    submission_id:
+      name: submission_id
+      in: header
+      description: Unique submission ID
+      required: false
       schema:
         type: string
   schemas:
@@ -673,3 +731,38 @@ components:
           description: Questions added in the test
           items:
             $ref: '#/components/schemas/CourseTestQuestionRequestDTO'
+    TestSubmissionResponseDTO:
+      title: TestSubmissionResponseDTO
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique ID to identify the submission associated with the test
+        student:
+          $ref: '#/components/schemas/StudentResponseDTO'
+        submitted_code:
+          type: string
+          description: Final code submitted by student
+        output:
+          type: string
+          description: Output after executing the code submission
+        question:
+          $ref: '#/components/schemas/CourseTestQuestionResponseDTO'
+        verdict:
+          type: string
+          description: Indicates if the student has cleared or failed the test
+        timestamp:
+          type: offsetDateTime
+          description: Timestamp the test was submitted
+    TestSubmissionRequestDTO:
+      title: TestSubmissionRequestDTO
+      type: object
+      properties:
+        submitted_code:
+          type: string
+          description: Final code submitted by student
+        question_id:
+          type: integer
+          format: int64
+          description: Unique ID to identify the question
