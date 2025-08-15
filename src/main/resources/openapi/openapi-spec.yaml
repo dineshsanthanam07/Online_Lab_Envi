@@ -152,6 +152,120 @@ paths:
           $ref: '#/components/responses/defaultResponse'
         "204":
           description: Course record details are deleted
+  /course/{course_id}/course_test:
+    description: API to provide CRUD operations for managing test data
+    get:
+      operationId: get-course_test-list
+      description: API to fetch test list or one test by id associated with the course
+      parameters:
+        - $ref: '#/components/parameters/page_number'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/test_id'
+        - $ref: '#/components/parameters/course_id_in_path'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "200":
+          description: The test list associated with course is returned successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CourseTestResponseDTO'
+    post:
+      operationId: save-course_test-record
+      description: API to save new Test associated to a course
+      parameters:
+        - $ref: '#/components/parameters/course_id_in_path'
+      requestBody:
+        description: Request model to save a test associated to a course
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseTestRequestDTO'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "201":
+          description: New test record is saved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseTestResponseDTO'
+    patch:
+      operationId: update-course_test-record
+      description: API to update test associated with course if present
+      requestBody:
+        description: Request model to update test associated with course
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseTestRequestDTO'
+      parameters:
+        - $ref: '#/components/parameters/course_id_in_path'
+        - $ref: '#/components/parameters/test_id'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "202":
+          description: Test associated with course record details are updated
+    delete:
+      operationId: delete-course_test-record
+      parameters:
+        - $ref: '#/components/parameters/course_id_in_path'
+        - $ref: '#/components/parameters/test_id'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "204":
+          description: Test record details are deleted
+  /course/{course_id}/course_test/{test_id}/submission:
+    description: API to provide CRUD operations for managing Test submissions data
+    get:
+      operationId: get-test_submission-list
+      description: API to fetch submission list or one submission by id associated with the test
+      parameters:
+        - $ref: '#/components/parameters/page_number'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/test_id_in_path'
+        - $ref: '#/components/parameters/course_id_in_path'
+        - $ref: '#/components/parameters/submission_id'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "200":
+          description: The submission list associated with test is returned successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TestSubmissionResponseDTO'
+    post:
+      operationId: save-test_submission-record
+      description: API to save new Submission associated to a test
+      parameters:
+        - $ref: '#/components/parameters/course_id_in_path'
+        - $ref: '#/components/parameters/test_id_in_path'
+      requestBody:
+        description: Request model to save a submission associated to a test
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestSubmissionRequestDTO'
+      responses:
+        default:
+          $ref: '#/components/responses/defaultResponse'
+        "201":
+          description: New submission record is saved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestSubmissionResponseDTO'
   /student:
     description: API to provide CRUD operations for managing Student data
     get:
@@ -316,7 +430,7 @@ components:
       name: faculty_id
       in: header
       description: Unique id to identify Faculty
-      required: true
+      required: false
       schema:
         type: integer
         format: int64
@@ -324,26 +438,55 @@ components:
       name: course_id
       in: header
       description: Unique id to identify course
-      required: true
+      required: false
       schema:
         type: integer
         format: int64
     student_id:
       name: student_id
       in: header
-      description: Unique id to identify course
-      required: true
+      description: Unique id to identify student
+      required: false
       schema:
         type: integer
         format: int64
     enrollment_id:
       name: enrollment_id
       in: header
-      description: Unique id to identify course
-      required: true
+      description: Unique id to identify enrollment
+      required: false
       schema:
         type: integer
         format: int64
+    test_id:
+      name: test_id
+      in: header
+      description: Unique id to identify test
+      required: false
+      schema:
+        type: integer
+        format: int64
+    course_id_in_path:
+      name: course_id
+      in: path
+      description: Course ID associated with this test
+      required: true
+      schema:
+        type: string
+    test_id_in_path:
+      name: test_id
+      in: path
+      description: Parent Test ID for the submission
+      required: true
+      schema:
+        type: string
+    submission_id:
+      name: submission_id
+      in: header
+      description: Unique submission ID
+      required: false
+      schema:
+        type: string
   schemas:
     FacultyResponseDTO:
       title: FacultyResponseDTO
@@ -508,4 +651,118 @@ components:
         course:
           type: integer
           format: int64
-          description: Unique ID to identify the course         
+          description: Unique ID to identify the course
+    CourseTestQuestionResponseDTO:
+      title: CourseTestQuestionResponseDTO
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique ID to identify the question added to a test associated with the course
+        question_text:
+          type: string
+          description: Problem statement
+        language:
+          type: string
+          description: Preferred language to solve the problem
+        test_cases:
+          type: string
+          description: Test cases prepared for the problem
+        custom_input:
+          type: string
+          description: Custom input to test the problem
+    CourseTestQuestionRequestDTO:
+      title: CourseTestQuestionRequestDTO
+      type: object
+      properties:
+        question_text:
+          type: string
+          description: Problem statement
+        language:
+          type: string
+          description: Preferred language to solve the problem
+        test_cases:
+          type: string
+          description: Test cases prepared for the problem
+        custom_input:
+          type: string
+          description: Custom input to test the problem
+    CourseTestResponseDTO:
+      title: CourseTestResponseDTO
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique ID to identify the test associated with the course
+        course:
+          $ref: '#/components/schemas/CourseResponseDTO'
+        title:
+          type: string
+          description: Title provided for the test
+        created_by:
+          $ref: '#/components/schemas/FacultyResponseDTO'
+        start_time:
+          type: offsetDateTime
+          description: Time the test had begun
+        duration:
+          type: integer
+          format: int32
+          description: The duration of the test in minutes
+        questions:
+          type: array
+          description: Questions added in the test
+          items:
+            $ref: '#/components/schemas/CourseTestQuestionResponseDTO'
+    CourseTestRequestDTO:
+      title: CourseTestRequestDTO
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title provided for the test
+        duration:
+          type: integer
+          format: int32
+          description: The duration of the test in minutes
+        questions:
+          type: array
+          description: Questions added in the test
+          items:
+            $ref: '#/components/schemas/CourseTestQuestionRequestDTO'
+    TestSubmissionResponseDTO:
+      title: TestSubmissionResponseDTO
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique ID to identify the submission associated with the test
+        student:
+          $ref: '#/components/schemas/StudentResponseDTO'
+        submitted_code:
+          type: string
+          description: Final code submitted by student
+        output:
+          type: string
+          description: Output after executing the code submission
+        question:
+          $ref: '#/components/schemas/CourseTestQuestionResponseDTO'
+        verdict:
+          type: string
+          description: Indicates if the student has cleared or failed the test
+        timestamp:
+          type: offsetDateTime
+          description: Timestamp the test was submitted
+    TestSubmissionRequestDTO:
+      title: TestSubmissionRequestDTO
+      type: object
+      properties:
+        submitted_code:
+          type: string
+          description: Final code submitted by student
+        question_id:
+          type: integer
+          format: int64
+          description: Unique ID to identify the question
