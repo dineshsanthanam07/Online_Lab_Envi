@@ -29,5 +29,15 @@ public class Facultyservice {
         return facultyRepository.findAll(PageRequest.of(page,size));
     }
 
+    public Mono<Faculty> saveFaculty(Faculty faculty){
+        return facultyRepository.save(faculty);
+    }
+
+    public void deleteFaculty(Long faculty_id){
+        facultyRepository.deleteById(faculty_id);
+    }
+
+
+
 
 }
