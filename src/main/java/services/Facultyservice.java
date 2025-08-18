@@ -2,6 +2,7 @@ package services;
 
 import Repository.FacultyRepository;
 import entity.Faculty;
+import entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class Facultyservice {
         return facultyRepository.findAll(PageRequest.of(page,size));
     }
 
-    public Mono<Faculty> saveFaculty(Faculty faculty){
+    public Mono<Faculty> updateFaculty(Faculty faculty){
         return facultyRepository.save(faculty);
     }
 
