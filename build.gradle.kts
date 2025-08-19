@@ -1,5 +1,3 @@
-import java.nio.file.Paths
-
 plugins {
     application
     alias(libs.plugins.spring.boot.gradle.plugin)
@@ -34,9 +32,9 @@ dependencies {
     implementation(libs.springDocOpenApiWebfluxApi)
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-hateoas")
-    implementation("org.springframework.data:spring-data-r2dbc:3.5.2")
-    implementation ("io.asyncer:r2dbc-mysql:1.4.0")
-    implementation("org.projectlombok:lombok:1.18.38")
+    implementation("org.springframework.data:spring-data-r2dbc")
+    implementation ("io.asyncer:r2dbc-mysql")
+    implementation("org.projectlombok:lombok")
 }
 
 openApiGenerate {

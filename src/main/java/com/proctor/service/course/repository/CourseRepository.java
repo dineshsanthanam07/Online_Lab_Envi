@@ -1,14 +1,15 @@
-package Repository;
+package com.proctor.service.course.repository;
 
-import entity.Faculty;
+import com.proctor.service.course.entity.Course;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.r2dbc.repository.R2dbcRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface FacultyRepository extends R2dbcRepository<Faculty, Long> {
+public interface CourseRepository extends R2dbcRepository<Course, String> {
+    Page<Course> findAll(Pageable pageable) ;
 
-  Page<Faculty> findAll(Pageable pageable) ;
+
 
 }

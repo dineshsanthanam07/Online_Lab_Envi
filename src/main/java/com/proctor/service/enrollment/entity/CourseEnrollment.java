@@ -1,4 +1,4 @@
-package entity;
+package com.proctor.service.enrollment.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,27 +8,23 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
-import java.time.LocalDateTime;
-
-@Table(name = "Courses")
+@Table(name = "Course_Enrollment")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Course {
-
+public class CourseEnrollment {
     @Id
+    @Column("course_enroll_id")
+    private Long courseEnrollId;
+
     @Column("course_id")
     private String courseId;
 
-    @Column("course_name")
-    private String courseName;  // Course Name
+    @Column("roll_no")
+    private Long rollNo;
 
-    @Column("created_at")
-    private LocalDateTime createdAt;  // Course Creation Timestamp
-
-    @Column("faculty_id")
-    private Long facultyId;  // Faculty assigned to the course
-
+    @Column("status")
+    private String status ="Pending approval"; // e.g.,
 
 }

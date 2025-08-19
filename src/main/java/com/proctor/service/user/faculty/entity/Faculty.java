@@ -1,22 +1,22 @@
-package entity;
+package com.proctor.service.user.faculty.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
+
+@Table(name = "Faculty")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Student")
-public class Student {
-    @Id
-    @Column("roll_no")
-    private Long rollNo;
+public class Faculty {
+
+    @Column("faculty_id")
+    private Long facultyId;
 
     @Column("name")
     private String name;
@@ -24,11 +24,11 @@ public class Student {
     @Column("department")
     private String department;
 
-    @Column("branch")
-    private String branch;
+    @Column("email")
+    private String email;
 
-    @Column("batch")
-    private String batch;
+    @Column("designation")
+    private String designation;
 
     @Column("user_id")
     private Long userId;

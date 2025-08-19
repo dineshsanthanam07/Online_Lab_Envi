@@ -1,7 +1,7 @@
-package services;
+package com.proctor.service.course.service;
 
-import Repository.CourseRepository;
-import entity.Course;
+import com.proctor.service.course.entity.Course;
+import com.proctor.service.course.repository.CourseRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ private final CourseRepository courseRepository;
 
 
 
-    public Page<Course> getAllCourses(int page,int size){
+    public Page<Course> getAllCourses(int page, int size){
         return courseRepository.findAll(PageRequest.of(page, size));
     }
 

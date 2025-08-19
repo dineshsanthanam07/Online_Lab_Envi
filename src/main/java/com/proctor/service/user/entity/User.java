@@ -1,4 +1,4 @@
-package entity;
+package com.proctor.service.user.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
