@@ -38,7 +38,7 @@ public class StudentService {
                         studentRecord -> new StudentResponseDTO()
                                 //.rollNo(studentRecord.getRollNo())
                                 //.batch(studentRecord.getBatch())
-                                .branch(studentRecord.getBranch())
+                               // .branch(studentRecord.getBranch())
                                 .department(studentRecord.getDepartment())
                                 .username(studentRecord.getName())
 
@@ -53,15 +53,27 @@ public class StudentService {
                         dto -> {
                             Student studentEntity = new Student();
                             studentEntity.setName(dto.getName());
-                            studentEntity.setRollNo(dto.getRollNo());
-                            studentEntity.setBatch(dto.getBatch());
-                            studentEntity.setBranch(dto.getBatch());
+//                            studentEntity.setRollNo(dto.getRollNo());
+//                            studentEntity.setBatch(dto.getBatch());
+//                            studentEntity.setBranch(dto.getBranch());
                             studentEntity.setDepartment(dto.getDepartment());
-                            User userEntity= new User();
-                            userEntity.setPassword(Encryptors.stronger(userdto.getPassword(),"encrypt"));
-
-
+//                            User userEntity= new User();
+//                            userEntity.setPassword(Encryptors.stronger(userdto.getPassword(),"encrypt"));
+                            // TODO set User Id and Password
+//                            studentEntity.setUserId(userEntity.getId());
+                                return studentEntity;
                         }
-                )
+                ).flatMap(studentRepository::save)
+                .map(
+
+                        studentRecord -> new StudentResponseDTO()
+                                .username(studentRecord.getName())
+                                .department(studentRecord.getDepartment())
+                               // .rollNo(studentRecord.getRollNo())
+                                //.branch(studentRecord.getBranch())
+                                //.batch(studentRecord.getBatch())
+
+
+                ).doOnSuccess(savedEntity -> log.atInfo().log("Saved Student record successfully"));
     }
 }

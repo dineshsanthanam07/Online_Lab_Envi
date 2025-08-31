@@ -25,7 +25,7 @@ public class Student {
     private String department;
 
     @Column("branch")
-    private String branch;
+    private int branch;
 
     @Column("batch")
     private String batch;
