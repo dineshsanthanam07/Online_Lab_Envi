@@ -35,6 +35,7 @@ dependencies {
     implementation("org.springframework.data:spring-data-r2dbc")
     implementation ("io.asyncer:r2dbc-mysql")
     implementation("org.projectlombok:lombok")
+    implementation("org.springframework.security:spring-security-crypto:6.5.3")
 }
 
 openApiGenerate {
