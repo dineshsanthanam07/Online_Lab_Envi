@@ -2,14 +2,12 @@ package com.proctor.service.user.student.service;
 
 import com.proctor.service.dto.StudentRequestDTO;
 import com.proctor.service.dto.StudentResponseDTO;
-import com.proctor.service.user.entity.User;
 import com.proctor.service.user.student.entity.Student;
 import com.proctor.service.user.student.repository.StudentRepository;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

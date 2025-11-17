@@ -1,7 +1,8 @@
 [versions]
-springBootVersion = "3.5.4"
-openApiPluginVersion = "7.14.0"
-springDocOpenApiVersions = "2.8.9"
+springBootVersion = "3.5.7"
+openApiPluginVersion = "7.17.0"
+springDocOpenApiVersions = "2.8.14"
+lombokGradlePluginVersion = "9.1.0"
 
 [libraries]
 springDocOpenApiWebfluxUi = { group = "org.springdoc", name = "springdoc-openapi-starter-webflux-ui", version.ref = "springDocOpenApiVersions" }
@@ -10,3 +11,4 @@ springDocOpenApiWebfluxApi = { group = "org.springdoc", name = "springdoc-openap
 [plugins]
 spring-boot-gradle-plugin = { id = "org.springframework.boot", version.ref = "springBootVersion" }
 openapi-generator-plugin = { id = "org.openapi.generator", version.ref = "openApiPluginVersion" }
+lombok-gradle-plugin = { id = "io.freefair.lombok", version.ref = "lombokGradlePluginVersion" }

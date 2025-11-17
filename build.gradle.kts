@@ -2,6 +2,7 @@ plugins {
     application
     alias(libs.plugins.spring.boot.gradle.plugin)
     alias(libs.plugins.openapi.generator.plugin)
+    alias(libs.plugins.lombok.gradle.plugin)
 }
 
 apply(plugin = "io.spring.dependency-management")
@@ -23,7 +24,7 @@ sourceSets {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(25)
     }
 }
 
@@ -35,7 +36,6 @@ dependencies {
     implementation("org.springframework.data:spring-data-r2dbc")
     implementation ("io.asyncer:r2dbc-mysql")
     implementation("org.projectlombok:lombok")
-    implementation("org.springframework.security:spring-security-crypto:6.5.3")
 }
 
 openApiGenerate {
