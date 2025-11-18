@@ -2,6 +2,8 @@ package com.proctor.service.user.faculty.service;
 
 import com.proctor.service.dto.FacultyRequestDTO;
 import com.proctor.service.dto.FacultyResponseDTO;
+import com.proctor.service.user.UserService;
+import com.proctor.service.user.entity.User;
 import com.proctor.service.user.faculty.repository.FacultyRepository;
 import com.proctor.service.user.faculty.entity.Faculty;
 import lombok.AccessLevel;
@@ -20,6 +22,7 @@ import reactor.core.publisher.Mono;
 public class FacultyService {
 
     private final FacultyRepository facultyRepository;
+    private final UserService userService;
 
     public Mono<Void> deleteFacultyById(Long facultyId) {
         return facultyRepository.deleteById(facultyId)
@@ -55,20 +58,44 @@ public class FacultyService {
                             facultyEntity.setFacultyId(dto.getId());
                             facultyEntity.setName(dto.getName());
                             facultyEntity.setDepartment(dto.getDepartment());
-                            // TODO set User ID and Password
                             facultyEntity.setDesignation(dto.getDesignation());
                             facultyEntity.setEmail(dto.getEmail());
                             return facultyEntity;
                         }
                 ).flatMap(facultyRepository::save)
                 .map(
-                        facultyRecord -> new FacultyResponseDTO()
-                                .id(facultyRecord.getFacultyId())
-                                .name(facultyRecord.getName())
-                                .department(facultyRecord.getDepartment())
-                                .username(facultyRecord.getEmail()) //TODO Correct this statement
-                                .designation(facultyRecord.getDesignation())
-                                .email(facultyRecord.getEmail())
+//                        facultyRecord -> new FacultyResponseDTO()
+//                                .id(facultyRecord.getFacultyId())
+//                                .name(facultyRecord.getName())
+//                                .department(facultyRecord.getDepartment())//TODO Correct this statement
+//                                .designation(facultyRecord.getDesignation())
+//                                .email(facultyRecord.getEmail())
+                        facultyRecord->{
+                            FacultyResponseDTO facultyResponseDTO=new FacultyResponseDTO()
+
+                                    .id(facultyRecord.getFacultyId())
+                                    .name(facultyRecord.getName())
+                                    .department(facultyRecord.getDepartment())//TODO Correct this statement
+                                    .designation(facultyRecord.getDesignation())
+                                    .email(facultyRecord.getEmail());
+                                    facultyRequestDTO.map(
+                                            dto->{
+                                                User user = new User();
+                                                user.setPassword(dto.getPassword());
+                                                user.setUsername(dto.getUsername());
+                                                user.setRole("FACULTY");
+                                                user.setStatus("PENDING");
+                                                userService.saveAndReturnUser(user).map(
+                                                        userdto-> facultyResponseDTO.username(userdto.getUsername())
+                                                );
+                                                return user;
+                                            }
+                                    );
+
+                            return facultyResponseDTO;
+                        }
+
+
                 ).doOnSuccess(savedEntity -> log.atInfo().log("Saved faculty record successfully"));
     }
 
