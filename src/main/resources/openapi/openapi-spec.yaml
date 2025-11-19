@@ -613,11 +613,9 @@ components:
           format: int32
           description: Batch year the student belongs to
         roll_no:
-          type: string
+          type: integer
+          format: int32
           description: Roll number to identify the student
-        username:
-          type: string
-          description: Student username
         password:
           type: string
           format: password

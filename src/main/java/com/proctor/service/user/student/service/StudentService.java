@@ -2,6 +2,9 @@ package com.proctor.service.user.student.service;
 
 import com.proctor.service.dto.StudentRequestDTO;
 import com.proctor.service.dto.StudentResponseDTO;
+import com.proctor.service.user.UserService;
+import com.proctor.service.user.entity.User;
+import com.proctor.service.user.repository.UserRepository;
 import com.proctor.service.user.student.entity.Student;
 import com.proctor.service.user.student.repository.StudentRepository;
 import lombok.AccessLevel;
@@ -18,6 +21,7 @@ import reactor.core.publisher.Mono;
 public class StudentService {
 
     private final StudentRepository studentRepository;
+    private final UserService userService;
 
     public Mono<Void> deleteStudentById(Long rollNo){
         return studentRepository.deleteById(rollNo)
@@ -51,25 +55,34 @@ public class StudentService {
                         dto -> {
                             Student studentEntity = new Student();
                             studentEntity.setName(dto.getName());
-//                            studentEntity.setRollNo(dto.getRollNo());
-//                            studentEntity.setBatch(dto.getBatch());
-//                            studentEntity.setBranch(dto.getBranch());
+                            studentEntity.setRollNo(Long.valueOf(dto.getRollNo()));
+                            studentEntity.setBatch(dto.getBatch());
+                            studentEntity.setBranch(dto.getBranch());
                             studentEntity.setDepartment(dto.getDepartment());
-//                            User userEntity= new User();
-//                            userEntity.setPassword(Encryptors.stronger(userdto.getPassword(),"encrypt"));
-                            // TODO set User Id and Password
-//                            studentEntity.setUserId(userEntity.getId());
+                            User user = new User();
+                            user.setPassword(dto.getPassword());
+                            user.setUsername(String.valueOf(dto.getRollNo()));
+                            user.setRole("STUDENT");
+                            user.setStatus("PENDING");
+                            userService.saveAndReturnUser(user).map(
+                                    userres->{studentEntity.setUserId(userres.getUserId());
+                                        return user;
+                                    }
+                            );
                                 return studentEntity;
                         }
                 ).flatMap(studentRepository::save)
                 .map(
 
                         studentRecord -> new StudentResponseDTO()
-                                .username(studentRecord.getName())
+                                .id(studentRecord.getUserId())
+                                .username(String.valueOf(studentRecord.getRollNo()))
+                                .name(studentRecord.getName())
                                 .department(studentRecord.getDepartment())
-                               // .rollNo(studentRecord.getRollNo())
-                                //.branch(studentRecord.getBranch())
-                                //.batch(studentRecord.getBatch())
+                                .rollNo(String.valueOf(studentRecord.getRollNo()))
+                                .branch(studentRecord.getBranch())
+                                .batch(studentRecord.getBatch())
+
 
 
                 ).doOnSuccess(savedEntity -> log.atInfo().log("Saved Student record successfully"));

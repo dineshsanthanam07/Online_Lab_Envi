@@ -25,10 +25,10 @@ public class Student {
     private String department;
 
     @Column("branch")
-    private int branch;
+    private String branch;
 
     @Column("batch")
-    private String batch;
+    private int batch;
 
     @Column("user_id")
     private Long userId;
