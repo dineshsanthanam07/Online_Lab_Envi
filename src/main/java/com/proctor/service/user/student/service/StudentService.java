@@ -4,7 +4,6 @@ import com.proctor.service.dto.StudentRequestDTO;
 import com.proctor.service.dto.StudentResponseDTO;
 import com.proctor.service.user.UserService;
 import com.proctor.service.user.entity.User;
-import com.proctor.service.user.repository.UserRepository;
 import com.proctor.service.user.student.entity.Student;
 import com.proctor.service.user.student.repository.StudentRepository;
 import lombok.AccessLevel;
@@ -38,14 +37,11 @@ public class StudentService {
                                 .doOnComplete(()->log.atInfo().log("Fetched Student List"))
                 ).map(
                         studentRecord -> new StudentResponseDTO()
-                                //.rollNo(studentRecord.getRollNo())
-                                //.batch(studentRecord.getBatch())
-                               // .branch(studentRecord.getBranch())
+                                .rollNo(String.valueOf(studentRecord.getRollNo()))
+                                .batch(studentRecord.getBatch())
+                                .branch(studentRecord.getBranch())
                                 .department(studentRecord.getDepartment())
                                 .username(studentRecord.getName())
-
-
-
                 );
     }
 
@@ -86,5 +82,22 @@ public class StudentService {
 
 
                 ).doOnSuccess(savedEntity -> log.atInfo().log("Saved Student record successfully"));
+    }
+    public Mono<Void> updateStudent(Mono<StudentRequestDTO> studentRequestDTOMono, Long rollNo) {
+        return studentRequestDTOMono.doOnNext(
+                studentRequestDTO -> {
+                    studentRepository.findById(rollNo)
+                            .map(
+                                    fetchedEntity -> {
+                                        fetchedEntity.setName(studentRequestDTO.getName());
+                                        fetchedEntity.setDepartment(studentRequestDTO.getDepartment());
+                                        fetchedEntity.setBranch(studentRequestDTO.getBranch());
+                                        fetchedEntity.setBatch(studentRequestDTO.getBatch());
+                                        fetchedEntity.setName(studentRequestDTO.getName());
+                                        return fetchedEntity;
+                                    }
+                            ).doOnNext(studentRepository::save);
+                }
+        ).then();
     }
 }
