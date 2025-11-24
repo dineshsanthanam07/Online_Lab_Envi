@@ -339,7 +339,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/page_number'
         - $ref: '#/components/parameters/page_size'
-        - $ref: '#/components/parameters/enrollment_id'
+        - $ref: '#/components/parameters/course_id'
       responses:
         default:
           $ref: '#/components/responses/defaultResponse'
