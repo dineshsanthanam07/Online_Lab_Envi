@@ -58,16 +58,21 @@ public class FacultyService {
                             facultyEntity.setDepartment(dto.getDepartment());
                             facultyEntity.setDesignation(dto.getDesignation());
                             facultyEntity.setEmail(dto.getEmail());
+                            User user = new User();
+                            user.setPassword(dto.getPassword());
+                            user.setUsername(dto.getUsername());
+                            user.setRole("FACULTY");
+                            user.setStatus("PENDING");
+                            userService.saveAndReturnUser(user).map(
+                                    userres->{facultyEntity.setUserId(userres.getUserId());
+                                    return user;
+                                    }
+                            );
+
                             return facultyEntity;
                         }
                 ).flatMap(facultyRepository::save)
                 .map(
-//                        facultyRecord -> new FacultyResponseDTO()
-//                                .id(facultyRecord.getFacultyId())
-//                                .name(facultyRecord.getName())
-//                                .department(facultyRecord.getDepartment())//TODO Correct this statement
-//                                .designation(facultyRecord.getDesignation())
-//                                .email(facultyRecord.getEmail())
                         facultyRecord->{
                             FacultyResponseDTO facultyResponseDTO=new FacultyResponseDTO()
 
@@ -76,19 +81,14 @@ public class FacultyService {
                                     .department(facultyRecord.getDepartment())//TODO Correct this statement
                                     .designation(facultyRecord.getDesignation())
                                     .email(facultyRecord.getEmail());
-                                    facultyRequestDTO.map(
-                                            dto->{
-                                                User user = new User();
-                                                user.setPassword(dto.getPassword());
-                                                user.setUsername(dto.getUsername());
-                                                user.setRole("FACULTY");
-                                                user.setStatus("PENDING");
-                                                userService.saveAndReturnUser(user).map(
-                                                        userdto-> facultyResponseDTO.username(userdto.getUsername())
-                                                );
-                                                return user;
-                                            }
-                                    );
+                            facultyRequestDTO.map(
+                                    facultyRequestDTO1 -> {
+                                        facultyResponseDTO.setUsername(facultyRequestDTO1.getUsername());
+                                        return facultyRecord;
+                                    }
+                            );
+
+
 
                             return facultyResponseDTO;
                         }

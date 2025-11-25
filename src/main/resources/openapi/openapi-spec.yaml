@@ -339,7 +339,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/page_number'
         - $ref: '#/components/parameters/page_size'
-        - $ref: '#/components/parameters/enrollment_id'
+        - $ref: '#/components/parameters/course_id'
       responses:
         default:
           $ref: '#/components/responses/defaultResponse'
@@ -606,11 +606,9 @@ components:
           format: int32
           description: Batch year the student belongs to
         roll_no:
-          type: string
+          type: integer
+          format: int32
           description: Roll number to identify the student
-        username:
-          type: string
-          description: Student username
         password:
           type: string
           format: password
