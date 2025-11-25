@@ -114,7 +114,7 @@ databaseChangeLog:
         columns:
         - column:
             name: course_id
-            type: varchar(10)
+            type: UUID
             constraints:
               primaryKey: true
         - column:

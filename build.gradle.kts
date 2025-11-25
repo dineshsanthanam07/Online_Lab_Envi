@@ -65,12 +65,14 @@ openApiGenerate {
         mutableMapOf<String, String>(
             "problemDetail" to "ProblemDetail",
             "offsetDateTime" to "OffsetDateTime",
+            "uuid" to "UUID"
         )
     )
     importMappings.set(
         mutableMapOf<String, String>(
             "ProblemDetail" to "org.springframework.http.ProblemDetail",
             "OffsetDateTime" to "java.time.OffsetDateTime",
+            "UUID" to "java.util.UUID"
         )
     )
 }

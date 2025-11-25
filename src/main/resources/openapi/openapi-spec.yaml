@@ -440,8 +440,7 @@ components:
       description: Unique id to identify course
       required: false
       schema:
-        type: integer
-        format: int64
+        type: uuid
     student_id:
       name: student_id
       in: header
@@ -456,37 +455,35 @@ components:
       description: Unique id to identify enrollment
       required: false
       schema:
-        type: integer
-        format: int64
+        type: uuid
     test_id:
       name: test_id
       in: header
       description: Unique id to identify test
       required: false
       schema:
-        type: integer
-        format: int64
+        type: uuid
     course_id_in_path:
       name: course_id
       in: path
       description: Course ID associated with this test
       required: true
       schema:
-        type: string
+        type: uuid
     test_id_in_path:
       name: test_id
       in: path
       description: Parent Test ID for the submission
       required: true
       schema:
-        type: string
+        type: uuid
     submission_id:
       name: submission_id
       in: header
       description: Unique submission ID
       required: false
       schema:
-        type: string
+        type: uuid
   schemas:
     FacultyResponseDTO:
       title: FacultyResponseDTO
@@ -543,8 +540,7 @@ components:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
+          type: uuid
           description: Unique ID for the course record
         name:
           type: string
@@ -561,9 +557,6 @@ components:
         name:
           type: string
           description: Name of the Course
-        createdAt:
-          type: offsetDateTime
-          description: The date the course was created at
         facultyId:
           type: integer
           format: int64
@@ -627,8 +620,7 @@ components:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
+          type: uuid
           description: Unique ID for the course record
         student:
           $ref: '#/components/schemas/StudentResponseDTO'
@@ -649,16 +641,14 @@ components:
           type: string
           description: The status of the enrollment
         course:
-          type: integer
-          format: int64
+          type: uuid
           description: Unique ID to identify the course
     CourseTestQuestionResponseDTO:
       title: CourseTestQuestionResponseDTO
       type: object
       properties:
         id:
-          type: integer
-          format: int64
+          type: uuid
           description: Unique ID to identify the question added to a test associated with the course
         question_text:
           type: string
@@ -693,8 +683,7 @@ components:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
+          type: uuid
           description: Unique ID to identify the test associated with the course
         course:
           $ref: '#/components/schemas/CourseResponseDTO'
@@ -736,8 +725,7 @@ components:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
+          type: uuid
           description: Unique ID to identify the submission associated with the test
         student:
           $ref: '#/components/schemas/StudentResponseDTO'

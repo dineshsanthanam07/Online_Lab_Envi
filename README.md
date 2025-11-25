@@ -19,7 +19,7 @@ title: Lab Environment Schema
 erDiagram
     COURSE }O--|| FACULTY : created_by
     COURSE {
-        string course_id PK "Unique value to identify course"
+        uuid course_id PK "Unique value to identify course"
         string course_name "Name of the course"
         timestamp_with_timezone created_at "Date and time course was created at"
         smallint faculty_id FK "Foreign key to refer Faculty who created/owns this course"
@@ -54,14 +54,14 @@ erDiagram
     COURSE_ENROLLMENT }O--|| COURSE : enrolled_in
     COURSE_ENROLLMENT {
         integer course_enroll_id PK "Unique key to identify the enrollment"
-        string course_id FK "Foreign key to refer the course enrolled to by the student"
+        uuid course_id FK "Foreign key to refer the course enrolled to by the student"
         bigint roll_no FK "Foreign key to refer the student enrolled in the course"
         boolean status "Flag to indicate successful enrollment in the course for the student"
     }
     COURSE_TEST }O--|| COURSE : contains
     COURSE_TEST {
         integer course_test_id PK "Unique key to identify the course test"
-        string course_id FK "Foreign key to refer the course which contains this test"
+        uuid course_id FK "Foreign key to refer the course which contains this test"
         string title "User friendly title for this test"
         timestamp_with_timezone start_time "Date and time the test was started at"
         interval duration "Duration for the test"
