@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 import java.util.UUID;
 
 @RestController
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 public class CourseApiController implements CourseApi {
 
     private final CourseApiService courseApiService;

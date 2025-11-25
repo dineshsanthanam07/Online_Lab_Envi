@@ -4,7 +4,7 @@ databaseChangeLog:
    author: Dinesh
    changes:
     - createTable:
-        tableName: Users
+        tableName: User
         columns:
         - column:
             name: user_id
@@ -67,10 +67,10 @@ databaseChangeLog:
               nullable: false
         - column:
             name: user_id
-            type: int
+            type: bigint
             constraints:
               nullable: false
-              foreignKeyName: user_id
+              foreignKeyName: faculty_user_id
               references: User(user_id)
               deleteCascade: true
     - createTable:
@@ -106,7 +106,7 @@ databaseChangeLog:
             type: bigint
             constraints:
               nullable: false
-              foreignKeyName: user_id
+              foreignKeyName: student_user_id
               references: User(user_id)
               deleteCascade: true
     - createTable:
@@ -155,14 +155,14 @@ databaseChangeLog:
             type: varchar(10)
             constraints:
               nullable: false
-              foreignKeyName: course_id
+              foreignKeyName: enrollment_course_id
               references: Courses(course_id)
         - column:
             name: roll_no
             type: bigint
             constraints:
               nullable: false
-              foreignKeyName: roll_no
+              foreignKeyName: enrollment_roll_no
               references: Students(roll_no)
     - createTable:
         tableName: Test
@@ -190,7 +190,7 @@ databaseChangeLog:
             type: varchar(10)
             constraints:
               nullable: false
-              foreignKeyName: course_id
+              foreignKeyName: test_course_id
               references: Courses(course_id)
     - createTable:
         tableName: Question
@@ -210,14 +210,14 @@ databaseChangeLog:
               nullable: false
         - column:
             name: questions
-            type: varchar(100000)
+            type: text
             constraints:
               nullable: false
         - column:
             name: test_id
             type: bigint
             constraints:
-              foreignKeyName: test_id
+              foreignKeyName: question_test_id
               references: Test(test_id)
     - createTable:
         tableName: Submissions
@@ -240,11 +240,11 @@ databaseChangeLog:
             type: bigint
             constraints:
               nullable: false
-              foreignKeyName: roll_no
+              foreignKeyName: submission_roll_no
               references: Students(roll_no)
         - column:
             name: submitted_code
-            type: varchar(100000000)
+            type: text
             constraints:
               nullable: false
         - column:
@@ -256,15 +256,5 @@ databaseChangeLog:
             name: test_id
             type: bigint
             constraints:
-              foreignKeyName: test_id
+              foreignKeyName: submission_test_id
               references: Test(test_id)
-
-
-
-
-
-
-
-
-
-

@@ -5,11 +5,15 @@
 ### Pre-requisites
 1. JDK 25 (Preferably [Bellsoft Libertica Native image kit](https://bell-sw.com/pages/downloads/native-image-kit/#nik-25-(jdk-25)))
 2. [gradle](https://gradle.org/)
+3. [MySql](https://dev.mysql.com/doc/refman/9.5/en/)
 
 ### Setup in local
 1. Clone the repo using ```git clone https://github.com/dineshsanthanam07/Online_Lab_Envi.git```
 2. Switch to app directory ```cd Online_Lab_Envi```
 3. Build the application by executing ```gradle build```
+4. Start MySql server and preferably create a user and DB for the application
+5. Provide DB username and password either in ```application.yaml``` file or as VM options.
+6. Execute the main method in ```ProctorProvideApplication.java```
 
 ## ER Diagram
 ```mermaid

@@ -1,0 +1,9 @@
+spring:
+  r2dbc:
+    url: r2dbc:mysql://localhost/online_lab_db
+    username: online_lab_user
+    password: ${db_password}
+  liquibase:
+    url: jdbc:mysql://localhost/online_lab_db
+    user: online_lab_user
+    password: ${db_password}

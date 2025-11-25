@@ -32,9 +32,12 @@ dependencies {
     implementation(libs.springDocOpenApiWebfluxUi)
     implementation(libs.springDocOpenApiWebfluxApi)
     implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation("org.springframework.boot:spring-boot-starter-hateoas")
-    implementation("org.springframework.data:spring-data-r2dbc")
+//    implementation("org.springframework.boot:spring-boot-starter-hateoas")
+    implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
+    implementation("org.springframework.boot:spring-boot-starter-liquibase")
+    implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation ("io.asyncer:r2dbc-mysql")
+    implementation("com.mysql:mysql-connector-j")
     implementation("org.projectlombok:lombok")
 }
 
@@ -56,7 +59,7 @@ openApiGenerate {
             "documentationProvider" to "springdoc",
             "reactive" to "true",
             "useBeanValidation" to "true",
-            "hateoas" to "true"
+//            "hateoas" to "true"
         )
     )
     apiFilesConstrainedTo.set(mutableListOf(""))
