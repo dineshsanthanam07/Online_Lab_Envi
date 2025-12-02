@@ -566,8 +566,7 @@ components:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
+          type: uuid
           description: Unique ID for the course record
         name:
           type: string

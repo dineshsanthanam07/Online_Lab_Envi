@@ -8,6 +8,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.util.UUID;
+
 @Table(name = "Course_Enrollment")
 @Getter
 @Setter
@@ -16,7 +18,7 @@ import org.springframework.data.relational.core.mapping.Table;
 public class CourseEnrollment {
     @Id
     @Column("course_enroll_id")
-    private Long courseEnrollId;
+    private UUID courseEnrollId;
 
     @Column("course_id")
     private String courseId;

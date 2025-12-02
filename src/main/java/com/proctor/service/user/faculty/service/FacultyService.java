@@ -11,8 +11,11 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -47,55 +50,45 @@ public class FacultyService {
                                 .email(facultyRecord.getEmail())
                 );
     }
-
+@Transactional
     public Mono<FacultyResponseDTO> saveAndReturnFaculty(Mono<FacultyRequestDTO> facultyRequestDTO) {
+
         return facultyRequestDTO
-                .map(
-                        dto -> {
-                            Faculty facultyEntity = new Faculty();
-                            facultyEntity.setFacultyId(dto.getId());
-                            facultyEntity.setName(dto.getName());
-                            facultyEntity.setDepartment(dto.getDepartment());
-                            facultyEntity.setDesignation(dto.getDesignation());
-                            facultyEntity.setEmail(dto.getEmail());
-                            User user = new User();
-                            user.setPassword(dto.getPassword());
-                            user.setUsername(dto.getUsername());
-                            user.setRole("FACULTY");
-                            user.setStatus("PENDING");
-                            userService.saveAndReturnUser(user).map(
-                                    userres->{facultyEntity.setUserId(userres.getUserId());
-                                    return user;
-                                    }
-                            );
+                .flatMap(dto -> {
 
-                            return facultyEntity;
-                        }
-                ).flatMap(facultyRepository::save)
-                .map(
-                        facultyRecord->{
-                            FacultyResponseDTO facultyResponseDTO=new FacultyResponseDTO()
+                    User user = new User();
+                    user.setUsername(dto.getUsername());
+                    user.setPassword(dto.getPassword());
+                    user.setRole("FACULTY");
+                    user.setStatus("PENDING");
+                    user.setUserId(UUID.randomUUID());
 
-                                    .id(facultyRecord.getFacultyId())
-                                    .name(facultyRecord.getName())
-                                    .department(facultyRecord.getDepartment())//TODO Correct this statement
-                                    .designation(facultyRecord.getDesignation())
-                                    .email(facultyRecord.getEmail());
-                            facultyRequestDTO.map(
-                                    facultyRequestDTO1 -> {
-                                        facultyResponseDTO.setUsername(facultyRequestDTO1.getUsername());
-                                        return facultyRecord;
-                                    }
-                            );
+                    return userService.saveAndReturnUser(user)
+                            .flatMap(savedUser -> {
 
+                                Faculty faculty = new Faculty();
+                                faculty.setFacultyId(dto.getId());
+                                faculty.setName(dto.getName());
+                                faculty.setDepartment(dto.getDepartment());
+                                faculty.setDesignation(dto.getDesignation());
+                                faculty.setEmail(dto.getEmail());
+                                faculty.setUserId(savedUser.getUserId());
 
-
-                            return facultyResponseDTO;
-                        }
-
-
-                ).doOnSuccess(savedEntity -> log.atInfo().log("Saved faculty record successfully"));
+                                return facultyRepository.save(faculty)
+                                        .map(savedFaculty -> new FacultyResponseDTO()
+                                                .id(savedFaculty.getFacultyId())
+                                                .name(savedFaculty.getName())
+                                                .department(savedFaculty.getDepartment())
+                                                .designation(savedFaculty.getDesignation())
+                                                .email(savedFaculty.getEmail())
+                                                .username(dto.getUsername()));
+                            });
+                })
+                .doOnSuccess(savedEntity ->
+                        log.atInfo().log("Saved faculty record successfully")
+                );
     }
+
 
     public Mono<Void> updateFaculty(Mono<FacultyRequestDTO> facultyRequestDTOMono, Long facultyId) {
         return facultyRequestDTOMono.doOnNext(
