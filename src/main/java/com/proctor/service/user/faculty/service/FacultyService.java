@@ -61,7 +61,7 @@ public class FacultyService {
                     user.setPassword(dto.getPassword());
                     user.setRole("FACULTY");
                     user.setStatus("PENDING");
-                    user.setUserId(UUID.randomUUID());
+//                    user.setUserId(UUID.randomUUID());
 
                     return userService.saveAndReturnUser(user)
                             .flatMap(savedUser -> {

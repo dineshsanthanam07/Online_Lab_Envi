@@ -33,5 +33,5 @@ public class Faculty {
     private String designation;
 
     @Column("user_id")
-    private UUID userId;
+    private Long userId;
 }

@@ -565,9 +565,6 @@ components:
       title: StudentResponseDTO
       type: object
       properties:
-        id:
-          type: uuid
-          description: Unique ID for the course record
         name:
           type: string
           description: Name of the Course

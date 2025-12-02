@@ -71,7 +71,7 @@ public class StudentService {
                 .map(
 
                         studentRecord -> new StudentResponseDTO()
-                                .id(studentRecord.getUserId())
+//                                .id(studentRecord.getUserId())
                                 .username(String.valueOf(studentRecord.getRollNo()))
                                 .name(studentRecord.getName())
                                 .department(studentRecord.getDepartment())

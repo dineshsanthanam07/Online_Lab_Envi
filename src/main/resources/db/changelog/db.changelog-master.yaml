@@ -8,7 +8,8 @@ databaseChangeLog:
         columns:
         - column:
             name: user_id
-            type: UUID
+            type: bigint
+            autoIncrement: true
             constraints:
               primaryKey: true
               nullable: false
@@ -66,7 +67,7 @@ databaseChangeLog:
               nullable: false
         - column:
             name: user_id
-            type: UUID
+            type: bigint
             constraints:
               nullable: false
               foreignKeyName: faculty_user_id
@@ -102,7 +103,7 @@ databaseChangeLog:
               nullable: false
         - column:
             name: user_id
-            type: UUID
+            type: bigint
             constraints:
               nullable: false
               foreignKeyName: student_user_id
