@@ -6,10 +6,12 @@ import com.proctor.service.user.student.service.StudentService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.UUID;
+
 @Slf4j
 @Service
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -19,7 +21,7 @@ public class CourseEnrollmentService {
     private final EnrollmentRepository enrollmentRepository;
     private final StudentService studentService;
 
-    public Mono<Void> deleteCourseEnrollmentById(Long courseEnrollmentId){
+    public Mono<Void> deleteCourseEnrollmentById(UUID courseEnrollmentId){
         return enrollmentRepository.deleteById(courseEnrollmentId)
                 .doOnSuccess(voidType->log.atInfo().log("Deleted CourseEnrollment Successfully"));
     }

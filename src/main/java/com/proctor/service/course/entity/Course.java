@@ -24,5 +24,5 @@ public class Course {
     @Column("created_at")
     private OffsetDateTime createdAt;
     @Column("faculty_id")
-    private Long facultyId;
+    private UUID facultyId;
 }

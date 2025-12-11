@@ -2,7 +2,9 @@ package com.proctor.service.user.repository;
 
 import com.proctor.service.user.entity.User;
 import org.springframework.data.r2dbc.repository.R2dbcRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepository extends R2dbcRepository<User, String> {
-    // Additional query methods can be defined here if needed
-}
+import java.util.UUID;
+
+@Repository
+public interface UserRepository extends R2dbcRepository<User, UUID> {}

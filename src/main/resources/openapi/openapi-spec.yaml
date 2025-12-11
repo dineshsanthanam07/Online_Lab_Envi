@@ -432,8 +432,7 @@ components:
       description: Unique id to identify Faculty
       required: false
       schema:
-        type: integer
-        format: int64
+        type: uuid
     course_id:
       name: course_id
       in: header
@@ -490,8 +489,7 @@ components:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
+          type: uuid
           description: Unique ID for the faculty record
         name:
           type: string
@@ -512,10 +510,6 @@ components:
       title: FacultyRequestDTO
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
-          description: Unique ID for the faculty record
         name:
           type: string
           description: Name of the Faculty
@@ -558,8 +552,7 @@ components:
           type: string
           description: Name of the Course
         facultyId:
-          type: integer
-          format: int64
+          type: uuid
           description: Unique ID for the faculty owning the course
     StudentResponseDTO:
       title: StudentResponseDTO

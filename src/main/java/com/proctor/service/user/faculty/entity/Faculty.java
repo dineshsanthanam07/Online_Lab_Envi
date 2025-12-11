@@ -18,7 +18,7 @@ import java.util.UUID;
 public class Faculty {
 
     @Column("faculty_id")
-    private Long facultyId;
+    private UUID facultyId;
 
     @Column("name")
     private String name;
@@ -33,5 +33,5 @@ public class Faculty {
     private String designation;
 
     @Column("user_id")
-    private Long userId;
+    private UUID userId;
 }

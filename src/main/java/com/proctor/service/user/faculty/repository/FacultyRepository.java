@@ -4,5 +4,7 @@ import com.proctor.service.user.faculty.entity.Faculty;
 import org.springframework.data.r2dbc.repository.R2dbcRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
+
 @Repository
-public interface FacultyRepository extends R2dbcRepository<Faculty, Long> {}
+public interface FacultyRepository extends R2dbcRepository<Faculty, UUID> {}

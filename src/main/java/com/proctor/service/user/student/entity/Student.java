@@ -33,5 +33,5 @@ public class Student {
     private int batch;
 
     @Column("user_id")
-    private Long userId;
+    private UUID userId;
 }

@@ -13,6 +13,8 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @RestController
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class FacultyApiController implements FacultyApi {
@@ -20,13 +22,13 @@ public class FacultyApiController implements FacultyApi {
     private final FacultyService facultyService;
 
     @Override
-    public Mono<ResponseEntity<Void>> deleteFacultyRecord(Long facultyId, ServerWebExchange exchange) {
+    public Mono<ResponseEntity<Void>> deleteFacultyRecord(UUID facultyId, ServerWebExchange exchange) {
         return facultyService.deleteFacultyById(facultyId)
                 .thenReturn(ResponseEntity.noContent().build());
     }
 
     @Override
-    public Mono<ResponseEntity<Flux<FacultyResponseDTO>>> getFacultyList(Integer pageNumber, Integer pageSize, Long facultyId, ServerWebExchange exchange) {
+    public Mono<ResponseEntity<Flux<FacultyResponseDTO>>> getFacultyList(Integer pageNumber, Integer pageSize, UUID facultyId, ServerWebExchange exchange) {
         return Mono.just(ResponseEntity.ok(facultyService.fetchFacultyListOrById(pageNumber, pageSize, facultyId)));
     }
 
@@ -36,7 +38,7 @@ public class FacultyApiController implements FacultyApi {
     }
 
     @Override
-    public Mono<ResponseEntity<Void>> updateFacultyRecord(Mono<FacultyRequestDTO> facultyRequestDTO, Long facultyId, ServerWebExchange exchange) {
+    public Mono<ResponseEntity<Void>> updateFacultyRecord(Mono<FacultyRequestDTO> facultyRequestDTO, UUID facultyId, ServerWebExchange exchange) {
         return facultyService.updateFaculty(facultyRequestDTO, facultyId).thenReturn(ResponseEntity.accepted().build());
     }
 }

@@ -8,8 +8,7 @@ databaseChangeLog:
         columns:
         - column:
             name: user_id
-            type: bigint
-            autoIncrement: true
+            type: CHAR(36)
             constraints:
               primaryKey: true
               nullable: false
@@ -40,8 +39,7 @@ databaseChangeLog:
         columns:
         - column:
             name: faculty_id
-            type: bigint
-            autoIncrement: true
+            type: CHAR(36)
             constraints:
               primaryKey: true
         - column:
@@ -67,7 +65,7 @@ databaseChangeLog:
               nullable: false
         - column:
             name: user_id
-            type: bigint
+            type: CHAR(36)
             constraints:
               nullable: false
               foreignKeyName: faculty_user_id
@@ -103,7 +101,7 @@ databaseChangeLog:
               nullable: false
         - column:
             name: user_id
-            type: bigint
+            type: CHAR(36)
             constraints:
               nullable: false
               foreignKeyName: student_user_id
@@ -114,7 +112,7 @@ databaseChangeLog:
         columns:
         - column:
             name: course_id
-            type: UUID
+            type: CHAR(36)
             constraints:
               primaryKey: true
         - column:
@@ -129,7 +127,7 @@ databaseChangeLog:
               nullable: true
         - column:
             name: faculty_id
-            type: bigint
+            type: CHAR(36)
             constraints:
               nullable: false
               foreignKeyName: faculty_id
@@ -139,8 +137,7 @@ databaseChangeLog:
         columns:
         - column:
             name: course_enroll_id
-            type: bigint
-            autoIncrement: true
+            type: CHAR(36)
             constraints:
               primaryKey: true
               nullable: false
@@ -152,7 +149,7 @@ databaseChangeLog:
               nullable: false
         - column:
             name: course_id
-            type: varchar(10)
+            type: CHAR(36)
             constraints:
               nullable: false
               foreignKeyName: enrollment_course_id
@@ -169,8 +166,7 @@ databaseChangeLog:
         columns:
         - column:
             name: test_id
-            type: bigint
-            autoIncrement: true
+            type: CHAR(36)
             constraints:
               primaryKey: true
               nullable: false
@@ -187,7 +183,7 @@ databaseChangeLog:
               nullable: false
         - column:
             name: course_id
-            type: varchar(10)
+            type: CHAR(36)
             constraints:
               nullable: false
               foreignKeyName: test_course_id
@@ -197,8 +193,7 @@ databaseChangeLog:
         columns:
         - column:
             name: question_id
-            type: bigint
-            autoIncrement: true
+            type: CHAR(36)
             constraints:
               primaryKey: true
               nullable: false
@@ -215,7 +210,7 @@ databaseChangeLog:
               nullable: false
         - column:
             name: test_id
-            type: bigint
+            type: CHAR(36)
             constraints:
               foreignKeyName: question_test_id
               references: Test(test_id)
@@ -224,8 +219,7 @@ databaseChangeLog:
         columns:
         - column:
            name: submission_id
-           type: bigint
-           autoIncrement: true
+           type: CHAR(36)
            constraints:
             primaryKey: true
             nullable: false
@@ -254,7 +248,7 @@ databaseChangeLog:
               nullable: false
         - column:
             name: test_id
-            type: bigint
+            type: CHAR(36)
             constraints:
               foreignKeyName: submission_test_id
               references: Test(test_id)
