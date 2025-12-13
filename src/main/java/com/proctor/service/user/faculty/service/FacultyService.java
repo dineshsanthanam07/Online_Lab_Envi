@@ -32,16 +32,21 @@ public class FacultyService {
     }
 
     public Flux<FacultyResponseDTO> fetchFacultyListOrById(Integer pageNumber, Integer pageSize, UUID facultyId) {
-        return Mono.justOrEmpty(facultyId)
-                .flatMap(facultyRepository::findById)
-                .flux()
-                .doOnNext(faculty -> log.atInfo().log("Returning Faculty record for requested facultyId"))
-                .switchIfEmpty(
-                        subscriber -> facultyRepository.findAll(Sort.by(Sort.Order.asc("facultyId")))
-                                .skip((pageNumber - 1L) * pageSize)
-                                .take(pageSize)
-                                .doOnComplete(() -> log.atInfo().log("Fetched Faculty list"))
-                ).map(
+        Flux<Faculty> facultyEntities;
+        if (facultyId != null)
+            facultyEntities = Mono.justOrEmpty(facultyId)
+                    .flatMap(facultyRepository::findById)
+                    .flux()
+                    .doOnNext(faculty -> log.atInfo().log("Returning Faculty record for requested facultyId {}", faculty.getFacultyId()));
+        else
+            facultyEntities = facultyRepository.findAll(Sort.by(Sort.Order.asc("facultyId")))
+                    .skip((pageNumber - 1L) * pageSize)
+                    .take(pageSize)
+                    .doOnComplete(() -> {
+                        log.atInfo().log("Fetched page {} from all faculties with pageSize {}", pageNumber, pageSize);
+                    });
+        return facultyEntities
+                .map(
                         facultyRecord -> new FacultyResponseDTO()
                                 .id(facultyRecord.getFacultyId())
                                 .name(facultyRecord.getName())
@@ -60,7 +65,6 @@ public class FacultyService {
                 .map(
                     requestDTO -> {
                         User userEntity = new User();
-                        userEntity.setUserId(UUID.randomUUID());
                         userEntity.setUsername(requestDTO.getUsername());
                         userEntity.setPassword(requestDTO.getPassword());
                         userEntity.setRole("FACULTY");
@@ -80,7 +84,6 @@ public class FacultyService {
                 .map(
                         requestDTOUserEntityPair -> {
                             Faculty facultyEntity = new Faculty();
-                            facultyEntity.setFacultyId(UUID.randomUUID());
                             facultyEntity.setName(requestDTOUserEntityPair.getFirst().getName());
                             facultyEntity.setDepartment(requestDTOUserEntityPair.getFirst().getDepartment());
                             facultyEntity.setDesignation(requestDTOUserEntityPair.getFirst().getDesignation());
