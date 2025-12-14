@@ -12,7 +12,8 @@ import java.util.UUID;
 public class UserIdInitializerCallback implements BeforeConvertCallback<User> {
     @Override
     public Publisher<User> onBeforeConvert(User entity, SqlIdentifier table) {
-        entity.setUserId(UUID.randomUUID());
+        if (entity.getUserId() == null)
+            entity.setUserId(UUID.randomUUID());
         return Mono.just(entity);
     }
 }

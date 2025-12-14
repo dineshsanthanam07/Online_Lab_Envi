@@ -115,19 +115,21 @@ public class FacultyService {
 
 
     public Mono<Void> updateFaculty(Mono<FacultyRequestDTO> facultyRequestDTOMono, UUID facultyId) {
-        return facultyRequestDTOMono.doOnNext(
-                facultyRequestDTO -> {
-                    facultyRepository.findById(facultyId)
-                            .map(
-                                    fetchedEntity -> {
-                                        fetchedEntity.setName(facultyRequestDTO.getName());
-                                        fetchedEntity.setDepartment(facultyRequestDTO.getDepartment());
-                                        fetchedEntity.setEmail(facultyRequestDTO.getEmail());
-                                        fetchedEntity.setDesignation(facultyRequestDTO.getDesignation());
-                                        return fetchedEntity;
-                                    }
-                            ).doOnNext(facultyRepository::save);
-                }
-        ).then();
+
+        return Mono.just(facultyId)
+                .flatMap(facultyRepository::findById)
+                .zipWith(facultyRequestDTOMono)
+                .map(
+                        fetchedEntityAndRequestDTOTuple -> {
+                            fetchedEntityAndRequestDTOTuple.getT1().setName(fetchedEntityAndRequestDTOTuple.getT2().getName());
+                            fetchedEntityAndRequestDTOTuple.getT1().setDepartment(fetchedEntityAndRequestDTOTuple.getT2().getDepartment());
+                            fetchedEntityAndRequestDTOTuple.getT1().setEmail(fetchedEntityAndRequestDTOTuple.getT2().getEmail());
+                            fetchedEntityAndRequestDTOTuple.getT1().setDesignation(fetchedEntityAndRequestDTOTuple.getT2().getDesignation());
+                            return fetchedEntityAndRequestDTOTuple.getT1();
+                        }
+                )
+                .flatMap(facultyRepository::save)
+                .doOnSuccess(fetchedEntity -> log.atInfo().log("Updated faculty with id {}", fetchedEntity.getFacultyId()))
+                .then();
     }
 }

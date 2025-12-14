@@ -12,7 +12,8 @@ import java.util.UUID;
 public class FacultyIdInitializerCallback implements BeforeConvertCallback<Faculty> {
     @Override
     public Publisher<Faculty> onBeforeConvert(Faculty entity, SqlIdentifier table) {
-        entity.setFacultyId(UUID.randomUUID());
+        if (entity.getFacultyId() == null)
+            entity.setFacultyId(UUID.randomUUID());
         return Mono.just(entity);
     }
 }
