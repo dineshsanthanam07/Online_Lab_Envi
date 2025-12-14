@@ -28,7 +28,7 @@ public class FacultyService {
 
     public Mono<Void> deleteFacultyById(UUID facultyId) {
         return facultyRepository.deleteById(facultyId)
-                .doOnSuccess(voidType -> log.atInfo().log("Deleted faculty Record successfully"));
+                .doOnSuccess(voidType -> log.atInfo().log("Deleted faculty Record with id {} successfully", facultyId));
     }
 
     public Flux<FacultyResponseDTO> fetchFacultyListOrById(Integer pageNumber, Integer pageSize, UUID facultyId) {
